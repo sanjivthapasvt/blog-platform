@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from serializers import UserSerializers
+from .serializers import UserSerializers, UserLoginSerializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,9 +14,10 @@ def get_tokens_for_user(user):
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    serializer_class = UserSerializers
     def post(self, request):
-        serializer = UserSerializers(data=request.data)
-        if serializer.is_valid:
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
             user = serializer.save()
             tokens = get_tokens_for_user(user)
             return Response({
@@ -28,10 +28,10 @@ class RegisterView(APIView):
     
 class LoginView(APIView):
     permission_classes = [AllowAny]
+    serializer_class = UserLoginSerializers
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
-        
         if not username or not password:
             return Response({
                 "error": "Please provide both username and password"}, status=status.HTTP_400_BAD_REQUEST)

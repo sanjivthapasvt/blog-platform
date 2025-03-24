@@ -30,3 +30,17 @@ class UserSerializers(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+class UserLoginSerializers(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user

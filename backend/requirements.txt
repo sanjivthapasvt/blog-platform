@@ -6,3 +6,5 @@ PyJWT
 python-dotenv
 django-cors-headers
 Pillow
+drf-spectacular
+drf-yasg
