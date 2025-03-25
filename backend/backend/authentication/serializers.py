@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-class UserSerializers(serializers.ModelSerializer):
+class UserCreateSerializers(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(required=True)

@@ -1,4 +1,4 @@
-from .serializers import UserSerializers, UserLoginSerializers
+from .serializers import UserCreateSerializers, UserLoginSerializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
@@ -15,7 +15,7 @@ def get_tokens_for_user(user):
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
-    serializer_class = UserSerializers
+    serializer_class = UserCreateSerializers
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -44,6 +44,7 @@ class LoginView(APIView):
     
 class LogoutView(GenericAPIView):
     permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         refresh_token = request.data.get('refresh_token')
         if not refresh_token:
