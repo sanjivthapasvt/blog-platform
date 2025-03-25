@@ -1,5 +1,7 @@
+import os
 from django.db import models
 from django.contrib.auth import get_user_model
+
 # Create your models here.
 User = get_user_model()
 class Post(models.Model):
@@ -16,6 +18,12 @@ class Post(models.Model):
     
     def total_likes(self):
         return self.likes.count()
+    
+    def delete(self, *args, **kwargs):
+        if self.img and hasattr(self.img, 'path') and os.path.isfile(self.img.path):
+            os.remove(self.img.path)
+        super().delete(*args, **kwargs)
+        
 
 class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
