@@ -1,6 +1,7 @@
 from .serializers import UserSerializers, UserLoginSerializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
@@ -41,9 +42,8 @@ class LoginView(APIView):
             return Response({'tokens': tokens}, status=status.HTTP_200_OK)
         return Response({'error': "Invalid Credentiuals"}, status=status.HTTP_401_UNAUTHORIZED)
     
-class LogoutView(APIView):
+class LogoutView(GenericAPIView):
     permission_classes = [IsAuthenticated]
-
     def post(self, request):
         refresh_token = request.data.get('refresh_token')
         if not refresh_token:
