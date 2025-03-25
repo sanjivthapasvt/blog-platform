@@ -19,8 +19,11 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    #admin urls
     path('admin/', admin.site.urls),
+    #for auth
     path('api/', include('authentication.urls')),
+    #for posts in blog
     path('api/', include('posts.urls')),
     
     # Schema Generation
