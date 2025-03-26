@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <header style={{ padding: "1rem", background: "#eee" }}>
-      <h1>Blog</h1>
-    </header>
-  );
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+  )
 }
