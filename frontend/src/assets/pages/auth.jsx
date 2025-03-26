@@ -1,7 +1,5 @@
-"use client"; // to run on the client side
-
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // For Next.js routing
+import { useNavigate } from "react-router-dom"; // React Router for navigation
 import axios from "axios";
 
 const Auth = () => {
@@ -15,7 +13,7 @@ const Auth = () => {
     confirm_password: "",
   });
 
-  const router = useRouter(); //navigation
+  const navigate = useNavigate(); // React Router navigation
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,6 +25,7 @@ const Auth = () => {
       const url = isLogin
         ? "http://127.0.0.1:8000/api/auth/login/"
         : "http://127.0.0.1:8000/api/auth/register/";
+
       const data = isLogin
         ? { username: formData.username, password: formData.password }
         : formData;
@@ -36,7 +35,7 @@ const Auth = () => {
 
       if (isLogin) {
         localStorage.setItem("token", response.data.access);
-        router.push("/dashboard"); // Redirect after login
+        navigate("/dashboard"); // Redirect after login
       }
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
