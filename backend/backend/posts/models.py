@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 User = get_user_model()
 class Post(models.Model):
@@ -8,6 +8,7 @@ class Post(models.Model):
     title = models.CharField(max_length=2500, blank=True, null=True)
     content = models.TextField(default=None)
     img = models.ImageField(upload_to='images/', null=True, blank=True)
+    tags = ArrayField(models.CharField(max_length=150), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, through='PostLike', related_name='liked_post', blank=True)
@@ -24,6 +25,11 @@ class Post(models.Model):
             if storage.exists(path):
                 storage.delete(path)
         super().delete(*args, **kwargs)
+    
+    def save(self, *args, **kwargs):
+        if self.tags: 
+            self.tags = list(set(self.tags))  # Remove duplicates by converting to set and back to list
+        super().save(*args, **kwargs) 
 
 class PostLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

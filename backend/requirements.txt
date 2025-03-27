@@ -8,3 +8,4 @@ django-cors-headers
 Pillow
 drf-spectacular
 drf-yasg
+dj-database-url

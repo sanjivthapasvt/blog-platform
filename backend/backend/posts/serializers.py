@@ -2,6 +2,7 @@ from .models import Post, Comment
 from rest_framework import serializers
 
 class PostSerializer(serializers.ModelSerializer):
+    author = serializers.CharField(source='user.username', read_only=True)  # Access the user username
     class Meta:
         model = Post
         fields = '__all__'
