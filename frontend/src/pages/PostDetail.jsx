@@ -25,12 +25,12 @@ const PostDetail = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-800">
       {post && (
-        <div className="max-w-2xl mx-auto bg-gray-900 text-white p-6 rounded-lg">
+        <div className=" mx-auto bg-gray-900 text-white p-6 rounded-lg">
           <h1 className="text-4xl font-bold">{post.title}</h1>
           <p className="text-gray-400">By <span className="text-blue-400">{post.author || "Unknown"}</span> on {new Date(post.created_at).toDateString()}</p>
-          {post.img && <img src={post.img} alt={post.title} className="w-full mt-4 rounded-md" />}
+          <span className="flex justify-center items-center h-screen">{post.img && <img src={post.img} alt={post.title} className="w-full max-h-[500px] object-cover" />}</span>
           <p className="mt-4 text-gray-300">{post.content}</p>
         </div>
       )}
