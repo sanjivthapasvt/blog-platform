@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import myimg from "../assets/img/my_pic.jpg";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -52,6 +53,19 @@ const SideNavigation = () => {
           {isCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
+      {/* Profile Section */}
+      <div className="flex flex-col items-center mb-6">
+        <div className="w-32 h-32 cursor-pointer mt-5 rounded-full border-2 border-gray-700 overflow-hidden">
+          <img
+            src={myimg}
+            alt="Profile"
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          />
+        </div>
+        <h2 className="mt-2 text-xl text-gray-400 font-bold cursor-pointer mb-3 hover:text-white transition-colors duration-200">Sanjiv Thapa</h2>
+        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">Python | Linux | Backend</p>
+        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">Web Developer | Django</p>
+      </div>
 
       {/* Navigation Menu */}
       <nav className="mt-4">
@@ -61,7 +75,9 @@ const SideNavigation = () => {
               <Link
                 to={item.href}
                 className={`flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md ${
-                  location.pathname === item.href ? "bg-gray-700 text-white" : ""
+                  location.pathname === item.href
+                    ? "bg-gray-700 text-white"
+                    : ""
                 }`}
               >
                 <item.icon size={22} />

@@ -23,7 +23,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="p-6 w-full">
+    <div className="bg-gray-800 p-6 w-full">
       <h1 className="text-3xl font-bold mb-6 text-white">Latest Posts</h1>
 
       {loading ? (

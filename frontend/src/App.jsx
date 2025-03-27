@@ -3,6 +3,7 @@ import Auth from "./pages/auth";
 import SideNavigation from "./components/SideNav";
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
+import About from "./pages/about";
 
 function Layout() {
   const location = useLocation();
@@ -16,6 +17,7 @@ function Layout() {
           <Route path="/" element={<Auth />} />
           <Route path="/home" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetail />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </div>
