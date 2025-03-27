@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -12,8 +12,21 @@ import {
 } from "lucide-react";
 
 const SideNavigation = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768); //collapsed on small screens
   const location = useLocation();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsCollapsed(true);
+      } else {
+        setIsCollapsed(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const menuItems = [
     { name: "Home", href: "/home", icon: Home },
@@ -30,8 +43,8 @@ const SideNavigation = () => {
         isCollapsed ? "w-16" : "w-56"
       } shadow-lg`}
     >
-      {/* Toggle Button */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
+      {/* Toggle Button (Visible only on mobile) */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 md:hidden">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition"
