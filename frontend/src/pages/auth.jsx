@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // React Router for navigation
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState(""); 
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -13,7 +14,7 @@ const Auth = () => {
     confirm_password: "",
   });
 
-  const navigate = useNavigate(); // React Router navigation
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,6 +22,13 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); 
+
+    if (!isLogin && formData.password !== formData.confirm_password) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     try {
       const url = isLogin
         ? "http://127.0.0.1:8000/api/auth/login/"
@@ -35,10 +43,28 @@ const Auth = () => {
 
       if (isLogin) {
         localStorage.setItem("token", response.data.access);
-        navigate("/dashboard"); // Redirect after login
+        navigate("/home");
       }
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
+      console.error("Error Response:", error.response?.data || error.message);
+
+      if (error.response?.data) {
+        const errorData = error.response.data;
+
+        // Handling different error
+        if (typeof errorData === "string") {
+          setError(errorData);
+        } else if (typeof errorData === "object") {
+          const errorMessages = Object.values(errorData)
+            .flat()
+            .join(" "); // Combine multiple messages into one string
+          setError(errorMessages);
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
+      } else {
+        setError("Network error. Please check your connection.");
+      }
     }
   };
 
@@ -46,6 +72,10 @@ const Auth = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-4">{isLogin ? "Login" : "Register"}</h2>
+
+        {/* Display Error Message */}
+        {error && <p className="text-red-500 bg-red-100 p-2 rounded mb-4">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <>
@@ -63,6 +93,7 @@ const Auth = () => {
             {isLogin ? "Login" : "Register"}
           </button>
         </form>
+
         <p className="mt-4 text-center">
           {isLogin ? "Don't have an account?" : "Already have an account?"} 
           <button onClick={() => setIsLogin(!isLogin)} className="text-blue-500 cursor-pointer underline ml-1">
