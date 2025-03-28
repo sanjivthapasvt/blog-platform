@@ -23,7 +23,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-gray-800 p-6 w-full">
+    <div className="bg-gradient-to-br from-gray-900 to-black p-6 w-full">
       <h1 className="text-3xl font-bold mb-6 text-white">Latest Posts</h1>
 
       {loading ? (
@@ -32,7 +32,7 @@ const Home = () => {
         posts.map((post) => (
           <div
             key={post.id}
-            className="bg-gray-900 text-white shadow-lg rounded-lg p-6 mb-6"
+            className="bg-gradient-to-br from-gray-900 to-black text-white shadow-lg rounded-lg p-6 mb-6"
           >
             {post.img && (
               <img
@@ -52,7 +52,7 @@ const Home = () => {
             </p>
             <button
               onClick={() => navigate(`/posts/${post.id}`)}
-              className="mt-4 text-blue-400 hover:underline"
+              className="mt-4 cursor-pointer text-blue-400 hover:underline"
             >
               Read more →
             </button>
