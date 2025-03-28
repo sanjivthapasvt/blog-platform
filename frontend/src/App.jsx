@@ -7,15 +7,15 @@ import About from "./pages/about";
 
 function Layout() {
   const location = useLocation();
-  const showSidebar = location.pathname !== "/";
+  const showSidebar =! location.pathname.startsWith("/auth");
   
   return (
     <div className="flex">
       {showSidebar && <SideNavigation />}
       <div className={`flex-1 ${showSidebar ? 'ml-16 md:ml-56' : ''}`}>
         <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/about" element={<About />} />
         </Routes>
