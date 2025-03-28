@@ -37,7 +37,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAuthenticated(), IsOwnerOrReadOnly()]
-    
+
     def get_queryset(self):
         post_id = self.kwargs.get('post_pk')  # Get the post ID from URL
         return Comment.objects.filter(post_id=post_id)

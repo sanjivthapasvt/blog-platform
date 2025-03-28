@@ -39,25 +39,34 @@ const Auth = () => {
         : formData;
 
       const response = await axios.post(url, data);
-      console.log("Success:", response.data);
+      console.log("Full Response:", response.data);
 
       if (isLogin) {
-        localStorage.setItem("token", response.data.access);
-        navigate("/home");
+        // Extract access token
+        const accessToken = response.data.tokens?.access;
+        
+        if (accessToken) {
+          localStorage.setItem("token", accessToken);
+          console.log("Token stored:", localStorage.getItem("token"));
+          navigate("/home");
+        } else {
+          setError("No access token found in the response");
+          console.error("No access token found in response:", response.data);
+        }
       }
     } catch (error) {
+      console.error("Detailed Error:", error);
       console.error("Error Response:", error.response?.data || error.message);
 
       if (error.response?.data) {
         const errorData = error.response.data;
 
-        // Handling different error
         if (typeof errorData === "string") {
           setError(errorData);
         } else if (typeof errorData === "object") {
           const errorMessages = Object.values(errorData)
             .flat()
-            .join(" "); // Combine multiple messages into one string
+            .join(" ");
           setError(errorMessages);
         } else {
           setError("Something went wrong. Please try again.");
@@ -67,6 +76,7 @@ const Auth = () => {
       }
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

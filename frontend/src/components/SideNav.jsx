@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import myimg from "../assets/img/my_pic.jpg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   Info,
@@ -10,11 +10,14 @@ import {
   Heart,
   Menu,
   ChevronLeft,
+  LogIn,
+  LogOut,
 } from "lucide-react";
 
 const SideNavigation = () => {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768); //collapsed on small screens
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768); // Collapsed on small screens
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,6 +40,15 @@ const SideNavigation = () => {
     { name: "Archive", href: "/archive", icon: Archive },
     { name: "Love", href: "/love", icon: Heart },
   ];
+
+  // Check if the user is authenticated by looking for a token in localStorage
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  // Handle logout by removing the token and navigating to the login page
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <div
@@ -62,9 +74,15 @@ const SideNavigation = () => {
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
           />
         </div>
-        <h2 className="mt-2 text-xl text-gray-400 font-bold cursor-pointer mb-3 hover:text-white transition-colors duration-200">Sanjiv Thapa</h2>
-        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">Python | Linux | Backend</p>
-        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">Web Developer | Django</p>
+        <h2 className="mt-2 text-xl text-gray-400 font-bold cursor-pointer mb-3 hover:text-white transition-colors duration-200">
+          Sanjiv Thapa
+        </h2>
+        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">
+          Python | Linux | Backend
+        </p>
+        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">
+          Web Developer | Django
+        </p>
       </div>
 
       {/* Navigation Menu */}
@@ -75,9 +93,7 @@ const SideNavigation = () => {
               <Link
                 to={item.href}
                 className={`flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md ${
-                  location.pathname === item.href
-                    ? "bg-gray-700 text-white"
-                    : ""
+                  location.pathname === item.href ? "bg-gray-700 text-white" : ""
                 }`}
               >
                 <item.icon size={22} />
@@ -85,6 +101,28 @@ const SideNavigation = () => {
               </Link>
             </li>
           ))}
+          {/* Conditionally render Logout or Login button */}
+          {isAuthenticated ? (
+            <li key="logout">
+              <button
+                onClick={handleLogout}
+                className="flex cursor-pointer items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md w-full text-left"
+              >
+                <LogOut size={22} />
+                {!isCollapsed && <span className="text-sm">Logout</span>}
+              </button>
+            </li>
+          ) : (
+            <li key="login">
+              <Link
+                to="/auth"
+                className="flex cursor-pointer items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md"
+              >
+                <LogIn size={22} />
+                {!isCollapsed && <span className="text-sm">Login</span>}
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
     </div>
