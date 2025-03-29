@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 const PostDetail = () => {
   const baseUrl = "http://127.0.0.1:8000/api/posts/";
@@ -47,7 +50,16 @@ const PostDetail = () => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) {
-      setPostError("Comment cannot be empty.");
+      toast.error('Comment cannot be empty.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return;
     }
     setIsPosting(true);
@@ -64,6 +76,18 @@ const PostDetail = () => {
       // Refresh comments after posting
       const commentsResponse = await axios.get(`${baseUrl}${id}/comments/`);
       setComments(commentsResponse.data);
+      
+      // Show success toast
+      toast.success('Comment added successfully!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
       console.error("Error posting comment:", error);
       setPostError(
@@ -71,29 +95,110 @@ const PostDetail = () => {
           ? "You are not authorized. Please log in again."
           : "Failed to post comment. Please try again."
       );
+      
+      // Show error toast
+      toast.error(error.response?.status === 401
+        ? "You are not authorized. Please log in again."
+        : "Failed to post comment. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } finally {
       setIsPosting(false);
     }
   };
 
-  // Handle comment deletion
+  // Handle comment deletion with SweetAlert2
   const handleDeleteComment = async (commentId) => {
-    if (!window.confirm("Are you sure you want to delete this comment?"))
-      return;
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      background: '#1f2937',
+      color: '#fff',
+      customClass: {
+        popup: 'dark-theme',
+        title: 'dark-theme',
+        content: 'dark-theme',
+        confirmButton: 'dark-theme',
+        cancelButton: 'dark-theme',
+      }
+    });
 
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${baseUrl}${id}/comments/${commentId}/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    if (result.isConfirmed) {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          toast.error('You need to be logged in to delete comments.', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          return;
+        }
 
-      // Remove deleted comment
-      setComments((prevComments) =>
-        prevComments.filter((comment) => comment.id !== commentId)
-      );
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-      alert("Failed to delete comment.");
+        const response = await axios.delete(`${baseUrl}${id}/comments/${commentId}/`, {
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.status === 204) {
+          setComments((prevComments) =>
+            prevComments.filter((comment) => comment.id !== commentId)
+          );
+          
+          // Show success toast
+          toast.success('Comment has been deleted.', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting comment:", error);
+        let errorMessage = "Failed to delete comment. Please try again.";
+        
+        if (error.response?.status === 401) {
+          errorMessage = "You are not authorized to delete this comment.";
+        } else if (error.response?.status === 404) {
+          errorMessage = "Comment not found.";
+        }
+
+        // Show error toast
+        toast.error(errorMessage, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
   };
 
@@ -102,6 +207,19 @@ const PostDetail = () => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 to-black text-white">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        limit={3}
+      />
       <div className="mx-auto bg-gradient-to-br from-gray-900 to-black p-6 rounded-lg">
         <h1 className="text-4xl font-bold">{post.title}</h1>
         <p className="text-gray-400">
