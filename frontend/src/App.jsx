@@ -4,6 +4,7 @@ import SideNavigation from "./components/SideNav";
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
 import About from "./pages/about";
+import Contact from "./pages/contact";
 
 function Layout() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function Layout() {
           <Route path="/home" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           {/* Redirect unknown routes to /home */}
         <Route path="/" element={<NotFoundRedirect />} />
         </Routes>

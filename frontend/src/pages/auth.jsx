@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Auth = () => {
+  const baseUrl = "http://127.0.0.1:8000/api";
   const [isLogin, setIsLogin] = useState(true);
-  const [error, setError] = useState(""); 
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -22,17 +24,16 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
 
     if (!isLogin && formData.password !== formData.confirm_password) {
-      setError("Passwords do not match.");
+      toast.error("Passwords do not match!");
       return;
     }
 
     try {
       const url = isLogin
-        ? "http://127.0.0.1:8000/api/auth/login/"
-        : "http://127.0.0.1:8000/api/auth/register/";
+        ? `${baseUrl}/auth/login/`
+        : `${baseUrl}/auth/register/`;
 
       const data = isLogin
         ? { username: formData.username, password: formData.password }
@@ -42,17 +43,33 @@ const Auth = () => {
       console.log("Full Response:", response.data);
 
       if (isLogin) {
-        // Extract access token
         const accessToken = response.data.tokens?.access;
+        const refreshToken = response.data.tokens?.refresh;
         
-        if (accessToken) {
+        if (accessToken && refreshToken) {
           localStorage.setItem("token", accessToken);
-          console.log("Token stored:", localStorage.getItem("token"));
-          navigate("/home");
+          localStorage.setItem("refresh_token", refreshToken);
+          console.log("Tokens stored:", {
+            access: localStorage.getItem("token"),
+            refresh: localStorage.getItem("refresh_token")
+          });
+          // Navigate with state
+          navigate("/home", { state: { showLoginSuccess: true } });
         } else {
-          setError("No access token found in the response");
-          console.error("No access token found in response:", response.data);
+          toast.error("No tokens found in the response");
+          console.error("No tokens found in response:", response.data);
         }
+      } else {
+        toast.success("Registration successful! Please login.");
+        setIsLogin(true);
+        setFormData({
+          first_name: "",
+          last_name: "",
+          username: "",
+          email: "",
+          password: "",
+          confirm_password: "",
+        });
       }
     } catch (error) {
       console.error("Detailed Error:", error);
@@ -62,54 +79,122 @@ const Auth = () => {
         const errorData = error.response.data;
 
         if (typeof errorData === "string") {
-          setError(errorData);
+          toast.error(errorData);
         } else if (typeof errorData === "object") {
           const errorMessages = Object.values(errorData)
             .flat()
             .join(" ");
-          setError(errorMessages);
+          toast.error(errorMessages);
         } else {
-          setError("Something went wrong. Please try again.");
+          toast.error("Something went wrong. Please try again.");
         }
       } else {
-        setError("Network error. Please check your connection.");
+        toast.error("Network error. Please check your connection.");
       }
     }
   };
 
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4">{isLogin ? "Login" : "Register"}</h2>
+    <div className="bg-gradient-to-br from-gray-900 to-black min-h-screen p-6 w-full">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        limit={3}
+      />
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold mb-6 text-white text-left">
+          {isLogin ? "Welcome Back" : "Join Us"}
+        </h1>
 
-        {/* Display Error Message */}
-        {error && <p className="text-red-500 bg-red-100 p-2 rounded mb-4">{error}</p>}
+        {/* Auth Card */}
+        <div className="flex justify-center">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white shadow-lg rounded-lg p-8 backdrop-blur-sm bg-opacity-50 w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-8 text-center">
+              {isLogin ? "Login to Your Account" : "Create New Account"}
+            </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!isLogin && (
-            <>
-              <input type="text" name="first_name" placeholder="First Name" value={formData.first_name} onChange={handleChange} className="w-full p-2 border rounded" />
-              <input type="text" name="last_name" placeholder="Last Name" value={formData.last_name} onChange={handleChange} className="w-full p-2 border rounded" />
-              <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full p-2 border rounded" />
-            </>
-          )}
-          <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="w-full p-2 border rounded" />
-          <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full p-2 border rounded" />
-          {!isLogin && (
-            <input type="password" name="confirm_password" placeholder="Confirm Password" value={formData.confirm_password} onChange={handleChange} className="w-full p-2 border rounded" />
-          )}
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 cursor-pointer rounded hover:bg-blue-600">
-            {isLogin ? "Login" : "Register"}
-          </button>
-        </form>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {!isLogin && (
+                <>
+                  <input
+                    type="text"
+                    name="first_name"
+                    placeholder="First Name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                  <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Last Name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                </>
+              )}
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+              />
+              {!isLogin && (
+                <input
+                  type="password"
+                  name="confirm_password"
+                  placeholder="Confirm Password"
+                  value={formData.confirm_password}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                />
+              )}
+              <button
+                type="submit"
+                className="w-full cursor-pointer bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-600 transform hover:-translate-y-0.5 transition-all duration-150"
+              >
+                {isLogin ? "Login" : "Register"}
+              </button>
+            </form>
 
-        <p className="mt-4 text-center">
-          {isLogin ? "Don't have an account?" : "Already have an account?"} 
-          <button onClick={() => setIsLogin(!isLogin)} className="text-blue-500 cursor-pointer underline ml-1">
-            {isLogin ? "Register" : "Login"}
-          </button>
-        </p>
+            <p className="mt-6 text-center text-gray-400">
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                onClick={() => setIsLogin(!isLogin)}
+                className="text-blue-400 hover:text-blue-300 cursor-pointer font-semibold transition-colors"
+              >
+                {isLogin ? "Register" : "Login"}
+              </button>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

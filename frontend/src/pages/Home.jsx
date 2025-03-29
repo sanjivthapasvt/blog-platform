@@ -1,33 +1,67 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
+  const baseUrl = "http://127.0.0.1:8000/api";
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    // Check for login success message from location state
+    if (location.state?.showLoginSuccess) {
+      toast.success("You've successfully logged in.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      // Clear the state
+      window.history.replaceState({}, document.title);
+    }
+
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/posts/");
+        const response = await axios.get(`${baseUrl}/posts/`);
         setPosts(response.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
+        toast.error("Error loading posts. Please try again.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
-  }, []);
+  }, [location]);
 
   return (
     <div className="bg-gradient-to-br from-gray-900 to-black p-6 w-full">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        limit={3}
+      />
       <h1 className="text-3xl font-bold mb-6 text-white">Latest Posts</h1>
 
       {loading ? (
-        <p>Loading posts...</p>
+        <p className="text-white">Loading posts...</p>
       ) : (
         posts.map((post) => (
           <div

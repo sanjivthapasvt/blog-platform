@@ -13,11 +13,14 @@ import {
   LogIn,
   LogOut,
 } from "lucide-react";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 const SideNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768); // Collapsed on small screens
   const location = useLocation();
   const navigate = useNavigate();
+  const baseUrl = "http://127.0.0.1:8000/api";
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,10 +47,40 @@ const SideNavigation = () => {
   // Check if the user is authenticated by looking for a token in localStorage
   const isAuthenticated = !!localStorage.getItem("token");
 
-  // Handle logout by removing the token and navigating to the login page
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+  // Handle logout by blacklisting the token and removing it from localStorage
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        // Call the logout endpoint to blacklist the token
+        await axios.post(
+          `${baseUrl}/auth/logout/`,
+          { refresh_token: localStorage.getItem("refresh_token") },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        // Remove both tokens from localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("refresh_token");
+        
+        // Show success message
+        toast.success("Successfully logged out!");
+        
+        // Navigate to auth page
+        navigate("/auth");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if the backend call fails, we should still log out locally
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh_token");
+      toast.error("Error during logout. Please try again.");
+      navigate("/auth");
+    }
   };
 
   return (
