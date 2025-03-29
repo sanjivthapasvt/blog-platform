@@ -12,7 +12,7 @@ const PostDetail = () => {
   const [isPosting, setIsPosting] = useState(false);
   const [postError, setPostError] = useState("");
 
-  const loggedInUser = JSON.parse(localStorage.getItem("user")); // Store user data username:svt
+  const loggedInUser = JSON.parse(localStorage.getItem("user")); // Store user data (username:svt)
 
   // Fetch post and comments
   useEffect(() => {
