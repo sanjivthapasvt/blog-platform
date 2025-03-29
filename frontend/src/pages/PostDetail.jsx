@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const PostDetail = () => {
   const baseUrl = "http://127.0.0.1:8000/api/posts/";
@@ -15,7 +15,9 @@ const PostDetail = () => {
   const [isPosting, setIsPosting] = useState(false);
   const [postError, setPostError] = useState("");
 
-  const loggedInUser = JSON.parse(localStorage.getItem("user")); // Store user data (username:svt)
+  // Get user data from localStorage
+  const userData = localStorage.getItem("user");
+  const loggedInUser = userData ? JSON.parse(userData) : null;
 
   // Fetch post and comments
   useEffect(() => {
@@ -50,7 +52,7 @@ const PostDetail = () => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) {
-      toast.error('Comment cannot be empty.', {
+      toast.error("Comment cannot be empty.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -76,9 +78,9 @@ const PostDetail = () => {
       // Refresh comments after posting
       const commentsResponse = await axios.get(`${baseUrl}${id}/comments/`);
       setComments(commentsResponse.data);
-      
+
       // Show success toast
-      toast.success('Comment added successfully!', {
+      toast.success("Comment added successfully!", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -95,20 +97,23 @@ const PostDetail = () => {
           ? "You are not authorized. Please log in again."
           : "Failed to post comment. Please try again."
       );
-      
+
       // Show error toast
-      toast.error(error.response?.status === 401
-        ? "You are not authorized. Please log in again."
-        : "Failed to post comment. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.error(
+        error.response?.status === 401
+          ? "You are not authorized. Please log in again."
+          : "Failed to post comment. Please try again.",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
     } finally {
       setIsPosting(false);
     }
@@ -117,30 +122,30 @@ const PostDetail = () => {
   // Handle comment deletion with SweetAlert2
   const handleDeleteComment = async (commentId) => {
     const result = await Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel',
-      background: '#1f2937',
-      color: '#fff',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      background: "#1f2937",
+      color: "#fff",
       customClass: {
-        popup: 'dark-theme',
-        title: 'dark-theme',
-        content: 'dark-theme',
-        confirmButton: 'dark-theme',
-        cancelButton: 'dark-theme',
-      }
+        popup: "dark-theme",
+        title: "dark-theme",
+        content: "dark-theme",
+        confirmButton: "dark-theme",
+        cancelButton: "dark-theme",
+      },
     });
 
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          toast.error('You need to be logged in to delete comments.', {
+          toast.error("You need to be logged in to delete comments.", {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -153,20 +158,23 @@ const PostDetail = () => {
           return;
         }
 
-        const response = await axios.delete(`${baseUrl}${id}/comments/${commentId}/`, {
-          headers: { 
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+        const response = await axios.delete(
+          `${baseUrl}${id}/comments/${commentId}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
 
         if (response.status === 204) {
           setComments((prevComments) =>
             prevComments.filter((comment) => comment.id !== commentId)
           );
-          
+
           // Show success toast
-          toast.success('Comment has been deleted.', {
+          toast.success("Comment has been deleted.", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -180,7 +188,7 @@ const PostDetail = () => {
       } catch (error) {
         console.error("Error deleting comment:", error);
         let errorMessage = "Failed to delete comment. Please try again.";
-        
+
         if (error.response?.status === 401) {
           errorMessage = "You are not authorized to delete this comment.";
         } else if (error.response?.status === 404) {
@@ -223,7 +231,10 @@ const PostDetail = () => {
       <div className="mx-auto bg-gradient-to-br from-gray-900 to-black p-6 rounded-lg">
         <h1 className="text-4xl font-bold">{post.title}</h1>
         <p className="text-gray-400">
-          By <span className="text-blue-400 cursor-pointer">{post.author || "Unknown"}</span>{" "}
+          By{" "}
+          <span className="text-blue-400 cursor-pointer">
+            {post.author || "Unknown"}
+          </span>{" "}
           on {new Date(post.created_at).toDateString()}
         </p>
         {post.img && (
@@ -291,7 +302,10 @@ const PostDetail = () => {
           ) : (
             <p className="text-gray-400">
               Please{" "}
-              <Link to="/auth" className="text-blue-400 underline cursor-pointer">
+              <Link
+                to="/auth"
+                className="text-blue-400 underline cursor-pointer"
+              >
                 log in
               </Link>{" "}
               to post a comment.

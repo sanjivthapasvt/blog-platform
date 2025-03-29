@@ -49,9 +49,14 @@ const Auth = () => {
         if (accessToken && refreshToken) {
           localStorage.setItem("token", accessToken);
           localStorage.setItem("refresh_token", refreshToken);
-          console.log("Tokens stored:", {
+          // Store user data
+          localStorage.setItem("user", JSON.stringify({
+            username: formData.username
+          }));
+          console.log("Tokens and user data stored:", {
             access: localStorage.getItem("token"),
-            refresh: localStorage.getItem("refresh_token")
+            refresh: localStorage.getItem("refresh_token"),
+            user: localStorage.getItem("user")
           });
           // Navigate with state
           navigate("/home", { state: { showLoginSuccess: true } });

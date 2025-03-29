@@ -66,6 +66,7 @@ const SideNavigation = () => {
         // Remove both tokens from localStorage
         localStorage.removeItem("token");
         localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user");
         
         // Show success message
         toast.success("Successfully logged out!");
@@ -78,6 +79,7 @@ const SideNavigation = () => {
       // Even if the backend call fails, we should still log out locally
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user"); // Remove user data
       toast.error("Error during logout. Please try again.");
       navigate("/auth");
     }
