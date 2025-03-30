@@ -40,8 +40,6 @@ const Auth = () => {
         : formData;
 
       const response = await axios.post(url, data);
-      console.log("Full Response:", response.data);
-
       if (isLogin) {
         const accessToken = response.data.tokens?.access;
         const refreshToken = response.data.tokens?.refresh;
@@ -53,11 +51,6 @@ const Auth = () => {
           localStorage.setItem("user", JSON.stringify({
             username: formData.username
           }));
-          console.log("Tokens and user data stored:", {
-            access: localStorage.getItem("token"),
-            refresh: localStorage.getItem("refresh_token"),
-            user: localStorage.getItem("user")
-          });
           // Navigate with state
           navigate("/home", { state: { showLoginSuccess: true } });
         } else {
