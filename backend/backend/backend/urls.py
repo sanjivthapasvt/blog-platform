@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/', include('authentication.urls')),
     #for posts in blog
     path('api/', include('posts.urls')),
+    #project urls
+    path('api/', include('project.urls')),
     
     # Schema Generation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

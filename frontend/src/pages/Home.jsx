@@ -89,9 +89,6 @@ const Home = () => {
     }
   };
 
-  const handleTitleClick = (postId) => {
-    navigate(`/posts/${postId}`);
-  };
 
   return (
     <motion.div 
