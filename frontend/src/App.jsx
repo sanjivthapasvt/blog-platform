@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
 import About from "./pages/about";
 import Contact from "./pages/contact";
+import Projects from "./pages/projects";
 
 function Layout() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function Layout() {
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/projects" element={<Projects />} />
           {/* Redirect unknown routes to /home */}
         <Route path="/" element={<NotFoundRedirect />} />
         </Routes>
