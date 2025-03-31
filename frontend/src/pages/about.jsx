@@ -173,7 +173,7 @@ export default function About() {
               {techStack.map((tech, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col items-center justify-center p-3 md:p-4 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/20 hover:border-indigo-500/30 transition-all duration-300 group"
+                  className="flex flex-col items-center cursor-pointer justify-center p-3 md:p-4 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/20 hover:border-indigo-500/30 transition-all duration-300 group"
                   variants={itemVariants}
                   whileHover="hover"
                 >
