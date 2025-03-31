@@ -27,7 +27,7 @@ function Layout() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
           {/* Redirect unknown routes to /home */}
-          <Route path="*" element={<NotFoundRedirect />} />
+          <Route path="/" element={<NotFoundRedirect />} />
         </Routes>
       </div>
     </div>

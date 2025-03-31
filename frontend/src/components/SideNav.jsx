@@ -181,11 +181,11 @@ const SideNavigation = () => {
             })}
             
             {/* Auth Button */}
-            <li className="mt-4 pt-4 border-t border-gray-700">
+            <li className="mt-2 pt-2 border-t border-gray-700">
               {isAuthenticated ? (
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-red-900/30 hover:text-red-200 rounded-md transition-all duration-200"
+                  className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer text-red-300 hover:bg-red-900/30 hover:text-red-200 rounded-md transition-all duration-200"
                 >
                   <div className="flex-shrink-0 w-6 flex justify-center">
                     <LogOut size={22} />

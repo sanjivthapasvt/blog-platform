@@ -87,7 +87,7 @@ const Auth = () => {
           toast.error("Something went wrong. Please try again.");
         }
       } else {
-        toast.error("Network error. Please check your connection.");
+        toast.error("Internal server error. Please try again later");
       }
     }
   };
