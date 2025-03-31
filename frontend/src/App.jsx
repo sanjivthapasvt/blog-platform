@@ -9,16 +9,16 @@ import Projects from "./pages/projects";
 
 function Layout() {
   const location = useLocation();
-  const showSidebar =! location.pathname.startsWith("/auth");
+  const showSidebar = !location.pathname.startsWith("/auth");
   
   function NotFoundRedirect() {
     return <Navigate to="/home" />;
   }
   
   return (
-    <div className="flex">
+    <div className="w-full h-full flex overflow-x-hidden">
       {showSidebar && <SideNavigation />}
-      <div className={`flex-1 ${showSidebar ? 'ml-16 md:ml-56' : ''}`}>
+      <div className={`flex-grow ${showSidebar ? 'ml-0 md:ml-64' : 'w-full'}`}>
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/home" element={<Home />} />
@@ -27,7 +27,7 @@ function Layout() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
           {/* Redirect unknown routes to /home */}
-        <Route path="/" element={<NotFoundRedirect />} />
+          <Route path="*" element={<NotFoundRedirect />} />
         </Routes>
       </div>
     </div>

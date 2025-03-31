@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaGithub, FaLinkedin, FaInstagram, FaFacebook, FaEnvelope, FaPhone, FaMapMarkerAlt, FaYoutube, FaTiktok, FaLink } from 'react-icons/fa';
+import helloGif from "../assets/gifs/hello.gif"
 
 const Contact = () => {
   const contactInfo = {
@@ -26,8 +27,8 @@ const Contact = () => {
         <div className="flex mb-12">
           <div className="relative w-full max-w-lg h-64 rounded-lg overflow-hidden shadow-2xl">
             <img
-              src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2xhdnB3aGRnaWVvY2h1YTdyMDBjeDZlZTl5MmZkNmFjNWMwd3Z2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lIzAEoZEn571u/giphy.gif"
-              alt="Animated tech background"
+              src={helloGif}
+              alt="Hello Gif"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>

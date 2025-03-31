@@ -9,7 +9,7 @@ import {
   Archive,
   Heart,
   Menu,
-  ChevronLeft,
+  X,
   LogIn,
   LogOut,
 } from "lucide-react";
@@ -17,23 +17,45 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 
 const SideNavigation = () => {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768); // Collapsed on small screens
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const baseUrl = "http://127.0.0.1:8000/api";
+  const isMobile = window.innerWidth < 768;
 
+  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
+      if (window.innerWidth >= 768 && isMobileOpen) {
+        setIsMobileOpen(false);
       }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isMobileOpen]);
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (window.innerWidth < 768 && isMobileOpen) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && !sidebar.contains(e.target)) {
+          setIsMobileOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileOpen]);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsMobileOpen(false);
+    }
+  }, [location.pathname]);
 
   const menuItems = [
     { name: "Home", href: "/home", icon: Home },
@@ -44,15 +66,14 @@ const SideNavigation = () => {
     { name: "Love", href: "/love", icon: Heart },
   ];
 
-  // Check if the user is authenticated by looking for a token in localStorage
+  // Check if the user is authenticated
   const isAuthenticated = !!localStorage.getItem("token");
 
-  // Handle logout by blacklisting the token and removing it from localStorage
+  // Handle logout
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        // Call the logout endpoint to blacklist the token
         await axios.post(
           `${baseUrl}/auth/logout/`,
           { refresh_token: localStorage.getItem("refresh_token") },
@@ -63,104 +84,130 @@ const SideNavigation = () => {
           }
         );
         
-        // Remove both tokens from localStorage
         localStorage.removeItem("token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("user");
         
-        // Show success message
         toast.success("Successfully logged out!");
-        
-        // Navigate to auth page
         navigate("/auth");
       }
     } catch (error) {
       console.error("Logout error:", error);
-      // Even if the backend call fails, we should still log out locally
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
-      localStorage.removeItem("user"); // Remove user data
+      localStorage.removeItem("user");
       toast.error("Error during logout. Please try again.");
       navigate("/auth");
     }
   };
 
-  return (
-    <div
-      className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 ${
-        isCollapsed ? "w-16" : "w-56"
-      } shadow-lg`}
+  // Mobile toggle button
+  const MobileMenuButton = () => (
+    <button
+      onClick={() => setIsMobileOpen(!isMobileOpen)}
+      className="fixed z-50 top-4 right-4 p-2 rounded-full bg-gray-800 text-white shadow-lg hover:bg-gray-700 transition-all duration-200 md:hidden"
+      aria-label="Toggle menu"
     >
-      {/* Toggle Button (Visible only on mobile) */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 md:hidden">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition"
-        >
-          {isCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
-        </button>
-      </div>
-      {/* Profile Section */}
-      <div className="flex flex-col items-center mb-6">
-        <div className="w-32 h-32 cursor-pointer mt-5 rounded-full border-2 border-gray-700 overflow-hidden">
-          <img
-            src={myimg}
-            alt="Profile"
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-          />
-        </div>
-        <h2 className="mt-2 text-xl text-gray-400 font-bold cursor-pointer mb-3 hover:text-white transition-colors duration-200">
-          Sanjiv Thapa
-        </h2>
-        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">
-          Python | Linux | Backend
-        </p>
-        <p className="text-sm text-gray-400 cursor-pointer hover:text-white transition-colors duration-200">
-          Web Developer | Django
-        </p>
-      </div>
+      {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+    </button>
+  );
 
-      {/* Navigation Menu */}
-      <nav className="mt-4">
-        <ul>
-          {menuItems.map((item) => (
-            <li key={item.name} className="relative">
-              <Link
-                to={item.href}
-                className={`flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md ${
-                  location.pathname === item.href ? "bg-gray-700 text-white" : ""
-                }`}
-              >
-                <item.icon size={22} />
-                {!isCollapsed && <span className="text-sm">{item.name}</span>}
-              </Link>
+  return (
+    <>
+      {/* Mobile Menu Button*/}
+      <MobileMenuButton />
+      
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" />
+      )}
+
+      {/* Main Sidebar */}
+      <div
+        id="sidebar"
+        className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 z-40 shadow-xl 
+          md:w-64 w-64
+          ${isMobile && !isMobileOpen ? "-translate-x-full" : "translate-x-0"}`}
+      >
+        {/* Profile Section */}
+        <div className="flex flex-col items-center mb-6 px-3 pt-2">
+          <div className="relative overflow-hidden rounded-full border-2 border-indigo-500 transition-all duration-300 w-28 h-28">
+            <img
+              src={myimg}
+              alt="Profile"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+            />
+          </div>
+          
+          <div className="mt-4 text-center transition-opacity duration-300">
+            <h2 className="text-xl font-bold text-white">Sanjiv Thapa</h2>
+            <div className="mt-2 space-y-1">
+              <p className="text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded-full inline-block">
+                Python | Linux | Backend
+              </p>
+              <p className="text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded-full inline-block">
+                Web Developer | Django
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Menu */}
+        <nav className="mt-2 px-2">
+          <ul className="space-y-1">
+            {menuItems.map((item) => {
+              const isActive = location.pathname === item.href;
+              const IconComponent = item.icon;
+              return (
+                <li key={item.name}>
+                  <Link
+                    to={item.href}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200
+                      ${isActive 
+                        ? "bg-indigo-600 text-white" 
+                        : "text-gray-300 hover:bg-gray-800 hover:text-white"}`}
+                  >
+
+                    <div className="flex-shrink-0 w-6 flex justify-center">
+                      <IconComponent size={22} />
+                    </div>
+                    <span className="text-sm font-medium">{item.name}</span>
+                    {isActive && (
+                      <span className="ml-auto bg-indigo-500 h-2 w-2 rounded-full"></span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+            
+            {/* Auth Button */}
+            <li className="mt-4 pt-4 border-t border-gray-700">
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-red-900/30 hover:text-red-200 rounded-md transition-all duration-200"
+                >
+                  <div className="flex-shrink-0 w-6 flex justify-center">
+                    <LogOut size={22} />
+                  </div>
+                  <span className="text-sm font-medium">Logout</span>
+                </button>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="flex items-center gap-3 px-4 py-3 text-green-300 hover:bg-green-900/30 hover:text-green-200 rounded-md transition-all duration-200"
+                >
+                  <div className="flex-shrink-0 w-6 flex justify-center">
+                    <LogIn size={22} />
+                  </div>
+                  <span className="text-sm font-medium">Login</span>
+                </Link>
+              )}
             </li>
-          ))}
-          {/* Conditionally render Logout or Login button */}
-          {isAuthenticated ? (
-            <li key="logout">
-              <button
-                onClick={handleLogout}
-                className="flex cursor-pointer items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md w-full text-left"
-              >
-                <LogOut size={22} />
-                {!isCollapsed && <span className="text-sm">Logout</span>}
-              </button>
-            </li>
-          ) : (
-            <li key="login">
-              <Link
-                to="/auth"
-                className="flex cursor-pointer items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition rounded-md"
-              >
-                <LogIn size={22} />
-                {!isCollapsed && <span className="text-sm">Login</span>}
-              </Link>
-            </li>
-          )}
-        </ul>
-      </nav>
-    </div>
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 };
 
