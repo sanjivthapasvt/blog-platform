@@ -394,7 +394,7 @@ const PostDetail = () => {
                   disabled={isPosting}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
-                  className="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-500 transition-colors duration-300 flex items-center space-x-2 shadow-lg shadow-indigo-900/30 disabled:opacity-70"
+                  className="bg-indigo-600 text-white py-2 cursor-pointer px-6 rounded-lg hover:bg-indigo-500 transition-colors duration-300 flex items-center space-x-2 shadow-lg shadow-indigo-900/30 disabled:opacity-70"
                 >
                   <Send size={16} className={isPosting ? "animate-pulse" : ""} />
                   <span>{isPosting ? "Posting..." : "Post Comment"}</span>
@@ -403,7 +403,7 @@ const PostDetail = () => {
             ) : (
               <div className="bg-slate-800/70 rounded-lg p-6 text-center border border-slate-700/50">
                 <p className="text-gray-300 mb-3">
-                  Please log in to join the conversation
+                  Please log in to post a comment
                 </p>
                 <Link
                   to="/auth"
@@ -464,7 +464,7 @@ const PostDetail = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleDeleteComment(comment.id)}
-                        className="text-red-400 hover:text-red-300 transition-colors duration-300"
+                        className="text-red-400 hover:text-red-300 transition-colors cursor-pointer duration-300"
                         title="Delete comment"
                       >
                         <Trash2 size={16} />
