@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 const Home = () => {
-  const baseUrl = "http://127.0.0.1:8000/api";
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");

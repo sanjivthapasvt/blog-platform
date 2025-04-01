@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Github, ExternalLink } from "lucide-react";
 
 const Projects = () => {
-  const baseUrl = "http://127.0.0.1:8000/api";
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

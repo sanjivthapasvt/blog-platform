@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Auth = () => {
-  const baseUrl = "http://127.0.0.1:8000/api";
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     first_name: "",

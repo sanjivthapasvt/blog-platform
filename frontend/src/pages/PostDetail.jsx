@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Clock, User, ArrowLeft, MessageCircle, Send, Trash2 } from "lucide-react";
 
 const PostDetail = () => {
-  const baseUrl = "http://127.0.0.1:8000/api/posts/";
+  const baseUrl = import.meta.env.VITE_API_URL+"/posts/";
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
