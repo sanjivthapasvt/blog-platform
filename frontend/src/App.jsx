@@ -26,7 +26,7 @@ function Layout() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
-          {/* Redirect unknown routes to /home */}
+          {/* Redirect root route to /home */}
           <Route path="/" element={<NotFoundRedirect />} />
         </Routes>
       </div>
