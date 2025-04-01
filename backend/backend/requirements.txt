@@ -11,3 +11,4 @@ drf-yasg
 dj-database-url
 gunicorn
 whitenoise
+requests

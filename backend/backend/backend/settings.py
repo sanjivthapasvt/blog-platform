@@ -14,6 +14,13 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 
+#Supabase for file storage
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+SUPABASE_BUCKET_NAME = os.getenv('SUPABASE_BUCKET_NAME')
+
+DEFAULT_FILE_STORAGE = 'backend.storage_backends.SupabaseStorage'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
