@@ -1,10 +1,18 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django_jsonform.models.fields import JSONField
+
 
 class Project(models.Model):
+    TECH_SCHEMA = {
+        'type': 'array',
+        'items': {
+            'type': 'string' 
+        }
+    }
+
     title = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(blank=True, null=True)
-    technologies = ArrayField(models.CharField(max_length=150), blank=True, null=True)
+    technologies = JSONField(schema=TECH_SCHEMA, default=list)
     image = models.ImageField(upload_to='images/projects', null=True, blank=True)
     github = models.CharField(max_length=500, null=True, blank=True)
     demo = models.CharField(max_length=300, null=True, blank=True)
