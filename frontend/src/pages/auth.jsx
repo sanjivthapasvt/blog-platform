@@ -8,8 +8,6 @@ const Auth = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
     username: "",
     email: "",
     password: "",
@@ -61,8 +59,6 @@ const Auth = () => {
         toast.success("Registration successful! Please login.");
         setIsLogin(true);
         setFormData({
-          first_name: "",
-          last_name: "",
           username: "",
           email: "",
           password: "",
@@ -122,22 +118,6 @@ const Auth = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {!isLogin && (
                 <>
-                  <input
-                    type="text"
-                    name="first_name"
-                    placeholder="First Name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
-                  />
-                  <input
-                    type="text"
-                    name="last_name"
-                    placeholder="Last Name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    className="w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
-                  />
                   <input
                     type="email"
                     name="email"
