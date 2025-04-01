@@ -20,7 +20,7 @@ const SideNavigation = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:8000/api";
+  const baseUrl = import.meta.env.VITE_API_URL;
   const isMobile = window.innerWidth < 768;
 
   // Handle window resize
