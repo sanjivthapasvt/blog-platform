@@ -104,14 +104,14 @@ const PostDetail = () => {
       console.error("Error posting comment:", error);
       setPostError(
         error.response?.status === 401
-          ? "You are not authorized. Please log in again."
+          ? "Your session has been expired. Please log in again."
           : "Failed to post comment. Please try again."
       );
 
       // Show error toast
       toast.error(
         error.response?.status === 401
-          ? "You are not authorized. Please log in again."
+          ? "Your session has been expired. Please log in again."
           : "Failed to post comment. Please try again.",
         {
           position: "top-right",
