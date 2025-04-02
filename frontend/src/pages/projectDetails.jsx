@@ -105,7 +105,7 @@ const ProjectDetail = () => {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-300">
+          <h1 className="text-3xl text-center sm:text-4xl md:text-5xl font-bold pb-7 bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-300">
             {project.title}
           </h1>
         </motion.div>
@@ -116,7 +116,7 @@ const ProjectDetail = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="relative mb-10 flex justify-center items-center"
+          className="relative mb-6 flex justify-center items-center"
         >
           <div className="w-full max-w-[900px] aspect-video">
             {project.video ? (
