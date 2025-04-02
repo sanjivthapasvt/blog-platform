@@ -233,6 +233,7 @@ const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
               </motion.span>
             ))}
           </div>
+          
           <motion.div
             whileHover={{ x: 5 }}
             onClick={() => navigate(`/project/${project.id}`)}
