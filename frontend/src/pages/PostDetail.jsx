@@ -29,7 +29,7 @@ const PostDetail = () => {
         const postResponse = await axios.get(`${baseUrl}${id}/`);
         setPost(postResponse.data);
         // Set page title based on post title
-        document.title = `${postResponse.data.title} | Blog`;
+        document.title = `${postResponse.data.title} | Sanjiv Thapa`;
       } catch (error) {
         console.error("Error fetching post:", error);
       }
@@ -54,7 +54,7 @@ const PostDetail = () => {
     
     // Reset title when component unmounts
     return () => {
-      document.title = "Blog";
+      document.title = "Sanjiv Thapa";
     };
   }, [id]);
 

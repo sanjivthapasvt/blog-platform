@@ -279,7 +279,7 @@ const Home = () => {
 
                           <motion.div
                             whileHover={{ x: 5 }}
-                            onClick={() => navigate(`/posts/${post.id}`)}
+                            onClick={() => navigate(`/post/${post.id}`)}
                             className="inline-flex items-center cursor-pointer text-indigo-400 font-medium text-sm sm:text-base group-hover:text-indigo-300 transition-colors duration-300"
                           >
                             Read more
