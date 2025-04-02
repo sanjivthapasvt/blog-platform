@@ -7,6 +7,7 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import Projects from "./pages/projects";
 import ProjectDetail from "./pages/projectDetails";
+import { Analytics } from "@vercel/analytics/react"
 
 function Layout() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function Layout() {
   return (
     <div className="w-full h-full flex overflow-x-hidden">
       {showSidebar && <SideNavigation />}
+      <Analytics/>
       <div className={`flex-grow ${showSidebar ? 'ml-0 md:ml-64' : 'w-full'}`}>
         <Routes>
           <Route path="/auth" element={<Auth />} />
