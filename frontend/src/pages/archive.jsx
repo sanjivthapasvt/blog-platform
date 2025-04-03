@@ -30,7 +30,6 @@ const ArchivePage = () => {
         const response = await axios.get(`${baseUrl}/posts/archived`);
         setArchivedPosts(response.data);
         
-        // Extract all unique tags
         const tags = new Set();
         response.data.forEach((post) => {
           post.tags.forEach((tag) => tags.add(tag));

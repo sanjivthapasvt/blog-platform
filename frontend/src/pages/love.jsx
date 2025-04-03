@@ -112,7 +112,7 @@ const Love = () => {
           transition={{ delay: 0.5, duration: 1 }}
           className="mt-4 text-indigo-300"
         >
-          Loading lovely things...
+          Loading...
         </motion.p>
       </div>
     );
