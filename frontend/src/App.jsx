@@ -7,7 +7,7 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import Projects from "./pages/projects";
 import ProjectDetail from "./pages/projectDetails";
-
+import Love from "./pages/love";
 function Layout() {
   const location = useLocation();
   const showSidebar = !location.pathname.startsWith("/auth");
@@ -28,6 +28,7 @@ function Layout() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/love" element={<Love />} />
           {/* Redirect root route to /home */}
           <Route path="/" element={<NotFoundRedirect />} />
         </Routes>

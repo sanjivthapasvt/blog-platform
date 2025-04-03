@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'posts',
     'project',
     'authentication',
+    'love',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',

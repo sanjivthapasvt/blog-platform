@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/', include('posts.urls')),
     #project urls
     path('api/', include('project.urls')),
+    #love urks
+    path('api/', include('love.urls')),
     
     # Schema Generation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
