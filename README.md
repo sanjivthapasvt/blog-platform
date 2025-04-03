@@ -1,5 +1,5 @@
 # personal-blog-platform
-This is personal blog site where you can post your blogs. It also includes about page, Projects page, Contact Page, Archive and Love page.It is like portfolio+blog site.
+This is personal blog site where you can post your blogs. It also includes about page, Projects page, Contact Page, Archive and Love page. It is like portfolio + blog site.
 
 ## To get stared
 
