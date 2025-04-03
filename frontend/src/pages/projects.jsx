@@ -49,10 +49,6 @@ const Projects = () => {
     return pairs;
   };
 
-  const handleProjectClick = (projectId) => {
-    navigate(`/projects/${projectId}`);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
