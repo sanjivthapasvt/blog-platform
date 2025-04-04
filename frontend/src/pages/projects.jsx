@@ -8,7 +8,6 @@ const Projects = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {

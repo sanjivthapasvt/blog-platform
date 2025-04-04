@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
-import { ArrowLeft, Heart, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 import ReactPlayer from "react-player";
+import BackgroundElement from "../components/BackgroundElements";
 
 const Love = () => {
   const baseUrl = import.meta.env.VITE_API_URL + "/love/";
-  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeItemIndex, setActiveItemIndex] = useState(null);
@@ -124,7 +124,7 @@ const Love = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pb-16"
-    >
+    ><BackgroundElement />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-5xl relative z-10">
         {/* Header */}
         <div className="max-w-7xl mx-auto">

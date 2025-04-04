@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { Clock, User, ArrowLeft, MessageCircle, Send, Trash2 } from "lucide-react";
-
+import BackgroundElement from "../components/BackgroundElements";
 const PostDetail = () => {
   const baseUrl = import.meta.env.VITE_API_URL+"/posts/";
   const { id } = useParams();
@@ -261,7 +261,7 @@ const PostDetail = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pb-16"
-    >
+    ><BackgroundElement />
       <ToastContainer
         position="top-right"
         autoClose={5000}

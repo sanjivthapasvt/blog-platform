@@ -66,7 +66,6 @@ const Auth = () => {
         });
       }
     } catch (error) {
-      console.error("Detailed Error:", error);
       console.error("Error Response:", error.response?.data || error.message);
 
       if (error.response?.data) {

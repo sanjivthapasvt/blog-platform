@@ -28,4 +28,9 @@ class Project(models.Model):
             storage, path = self.image.storage, self.image.path
             if storage.exists(path):
                 storage.delete(path)
+
+        if self.video:
+            storage, path = self.video.storage, self.video.path
+            if storage.exists(path):
+                storage.delete(path)
         super().delete(*args, **kwargs)
