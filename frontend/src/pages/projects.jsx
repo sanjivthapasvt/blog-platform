@@ -14,7 +14,12 @@ const Projects = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(`${baseUrl}/project/`);
-        setProjects(response.data);
+        // Sort projects by ID (primary key)
+        const sortedProjects = [...response.data].sort((a, b) => {
+          // Sort by id (primary key)
+          return a.id - b.id;
+        });
+        setProjects(sortedProjects);
       } catch (error) {
         console.error("Error loading projects. Please try again.");
       } finally {
