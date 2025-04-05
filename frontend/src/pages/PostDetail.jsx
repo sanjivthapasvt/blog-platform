@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import Markdown from 'react-markdown'
 import { Clock, User, ArrowLeft, MessageCircle, Send, Trash2 } from "lucide-react";
 import BackgroundElement from "../components/BackgroundElements";
 const PostDetail = () => {
@@ -246,7 +247,7 @@ const PostDetail = () => {
           <p className="text-gray-300 mb-6">The post you're looking for doesn't exist or has been removed.</p>
           <button 
             onClick={() => navigate('/')}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition duration-300 flex items-center justify-center space-x-2"
+            className="px-4 py-2 bg-indigo-600 cursor-pointer text-white rounded-lg hover:bg-indigo-500 transition duration-300 flex items-center justify-center space-x-2"
           >
             <ArrowLeft size={18} />
             <span>Back to Home</span>
@@ -342,9 +343,9 @@ const PostDetail = () => {
           transition={{ delay: 0.3 }}
           className="prose prose-invert prose-lg max-w-none mb-16"
         >
-          <p className="text-lg leading-relaxed text-gray-300 whitespace-pre-line">
-            {post.content}
-          </p>
+          <div className="text-lg leading-relaxed text-gray-300 whitespace-pre-line">
+            <Markdown>{post.content}</Markdown>
+          </div>
           
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (

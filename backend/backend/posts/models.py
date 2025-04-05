@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django_jsonform.models.fields import JSONField
-from cloudinary_storage.storage import MediaCloudinaryStorage
 
 
 
@@ -16,8 +15,9 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     title = models.CharField(max_length=2500, blank=True, null=True)
+    subtitle = models.CharField(max_length=250, blank=True, null=True)
     content = models.TextField(default=None)
-    img = models.ImageField(upload_to='images/', null=True, blank=True, storage=MediaCloudinaryStorage())
+    img = models.ImageField(upload_to='images/', null=True, blank=True)
     tags = JSONField(schema=TAGS_SCHEMA, default=list)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

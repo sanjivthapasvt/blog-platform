@@ -1,13 +1,12 @@
 from django.db import models
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
 from cloudinary_storage.validators import validate_video
 
 
 class Love(models.Model):
     title = models.CharField(max_length=150, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    video = models.FileField(upload_to='videos/love/', null=True, blank=True, storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
-    image = models.ImageField(upload_to="images/love/", null=True, blank=True, storage=MediaCloudinaryStorage())
+    video = models.FileField(upload_to='videos/love/', null=True, blank=True, validators=[validate_video])
+    image = models.ImageField(upload_to="images/love/", null=True, blank=True)
 
     def delete(self, *args, **kwargs):
         if self.image:

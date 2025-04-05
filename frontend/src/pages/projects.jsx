@@ -239,7 +239,7 @@ const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
           {project.title}
         </h2>
         <p className="text-sm sm:text-base text-slate-300 mb-4 sm:mb-5 line-clamp-3 leading-relaxed">
-          {project.description}
+          {project.subtitle}
         </p>
         <div className="mt-auto">
           <div className="flex flex-wrap gap-2 mb-4">

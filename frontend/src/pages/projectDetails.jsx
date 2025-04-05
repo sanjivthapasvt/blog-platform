@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import ReactPlayer from "react-player";
 import BackgroundElement from "../components/BackgroundElements";
+import Markdown from "react-markdown";
 
 const ProjectDetail = () => {
   const baseUrl = import.meta.env.VITE_API_URL + "/project/";
@@ -146,9 +147,9 @@ const ProjectDetail = () => {
           transition={{ delay: 0.3 }}
           className="prose prose-invert prose-lg max-w-none mb-16"
         >
-          <p className="text-lg leading-relaxed text-gray-300 whitespace-pre-line">
-            {project.description}
-          </p>
+          <div className="text-lg leading-relaxed text-gray-300 whitespace-pre-line">
+            <Markdown>{project.description}</Markdown>
+          </div>
 
           {/* technologies */}
           {project.technologies && project.technologies.length > 0 && (

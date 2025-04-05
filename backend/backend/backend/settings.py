@@ -85,8 +85,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #cloudinary storage
-CLOUDINARY_URL=os.getenv('CLOUDNARY_URL')
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# CLOUDINARY_URL=os.getenv('CLOUDNARY_URL')
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 ROOT_URLCONF = 'backend.urls'

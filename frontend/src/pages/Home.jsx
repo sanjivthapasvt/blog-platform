@@ -254,7 +254,7 @@ const Home = () => {
                         </h2>
 
                         <p className="text-sm sm:text-base text-slate-300 mb-4 sm:mb-5 line-clamp-3 leading-relaxed">
-                          {post.content.slice(0, 120)}...
+                          {post.subtitle}
                         </p>
 
                         <div className="mt-auto">
