@@ -80,7 +80,10 @@ const Projects = () => {
           {loading ? (
             <div className="flex justify-center items-center h-64">
               <motion.div
-                animate={{ rotate: 360, transition: { duration: 1, ease: "linear", repeat: Infinity } }}
+                animate={{
+                  rotate: 360,
+                  transition: { duration: 1, ease: "linear", repeat: Infinity },
+                }}
                 className="h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-indigo-500 rounded-full"
               />
             </div>
@@ -95,18 +98,28 @@ const Projects = () => {
                   >
                     Featured Projects
                   </motion.h2>
-                  <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-8">
-                    {getProjectPairs(featuredProjects).map((pair, pairIndex) => (
-                      <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {pair.map((project) => (
-                          <ProjectCard
-                            key={project.id}
-                            project={project}
-                            cardHoverVariants={cardHoverVariants}
-                          />
-                        ))}
-                      </div>
-                    ))}
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="space-y-8"
+                  >
+                    {getProjectPairs(featuredProjects).map(
+                      (pair, pairIndex) => (
+                        <div
+                          key={pairIndex}
+                          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                        >
+                          {pair.map((project) => (
+                            <ProjectCard
+                              key={project.id}
+                              project={project}
+                              cardHoverVariants={cardHoverVariants}
+                            />
+                          ))}
+                        </div>
+                      )
+                    )}
                   </motion.div>
                 </section>
               )}
@@ -120,9 +133,17 @@ const Projects = () => {
                   >
                     Other Projects
                   </motion.h2>
-                  <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-8">
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="space-y-8"
+                  >
                     {getProjectPairs(otherProjects).map((pair, pairIndex) => (
-                      <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div
+                        key={pairIndex}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                      >
                         {pair.map((project) => (
                           <ProjectCard
                             key={project.id}
@@ -143,8 +164,12 @@ const Projects = () => {
                   transition={{ duration: 0.5 }}
                   className="text-center py-12 sm:py-16 bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl shadow-sm border border-slate-700/50"
                 >
-                  <h2 className="text-xl sm:text-2xl font-bold text-slate-300 mb-2">No projects found</h2>
-                  <p className="text-sm sm:text-base text-slate-400">Check back later for project updates</p>
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-300 mb-2">
+                    No projects found
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-400">
+                    Check back later for project updates
+                  </p>
                 </motion.div>
               )}
             </div>
@@ -162,7 +187,10 @@ const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
       whileHover="hover"
       variants={cardHoverVariants}
       className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl overflow-hidden flex flex-col border border-slate-700/50 group"
-      style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(120, 100, 250, 0.07), transparent 25%)' }}
+      style={{
+        backgroundImage:
+          "radial-gradient(circle at 50% 0%, rgba(120, 100, 250, 0.07), transparent 25%)",
+      }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       {project.image && (
@@ -205,10 +233,7 @@ const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
       )}
       <div className="p-5 sm:p-6 flex-grow flex flex-col relative z-10">
         <h2
-          onClick={(e) => {
-            e.stopPropagation();
-            onClick(project.id);
-          }}
+          onClick={() => navigate(`/project/${project.id}`)}
           className="text-xl sm:text-2xl font-bold text-white mb-3 line-clamp-2 group-hover:text-indigo-300 transition-colors duration-300 cursor-pointer"
         >
           {project.title}
@@ -228,17 +253,19 @@ const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
               </motion.span>
             ))}
           </div>
-          
+
           <motion.div
             whileHover={{ x: 5 }}
             onClick={() => navigate(`/project/${project.id}`)}
             className="inline-flex items-center text-indigo-400 font-medium text-sm sm:text-base group-hover:text-indigo-300 transition-colors duration-300 cursor-pointer"
           >
             View details
-            <ArrowRight size={16} className="ml-1.5 group-hover:translate-x-1 transition-transform duration-300" />
+            <ArrowRight
+              size={16}
+              className="ml-1.5 group-hover:translate-x-1 transition-transform duration-300"
+            />
           </motion.div>
         </div>
-
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
     </motion.article>

@@ -121,7 +121,7 @@ const Home = () => {
         theme="dark"
         limit={3}
       />
-        
+
       <div className="transition-all duration-300 px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div className="max-w-7xl mx-auto">
           <motion.header
@@ -246,7 +246,10 @@ const Home = () => {
                           </div>
                         </div>
 
-                        <h2 className="text-xl sm:text-2xl cursor-pointer font-bold text-white mb-3 line-clamp-2 group-hover:text-indigo-300 transition-colors duration-300">
+                        <h2
+                          onClick={() => navigate(`/post/${post.id}`)}
+                          className="text-xl sm:text-2xl cursor-pointer font-bold text-white mb-3 line-clamp-2 group-hover:text-indigo-300 transition-colors duration-300"
+                        >
                           {post.title}
                         </h2>
 
