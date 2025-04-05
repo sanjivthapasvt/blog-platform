@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import Markdown from 'react-markdown'
 import { Clock, User, ArrowLeft, MessageCircle, Send, Trash2 } from "lucide-react";
 import BackgroundElement from "../components/BackgroundElements";
+import "./markdown.css"
+
 const PostDetail = () => {
   const baseUrl = import.meta.env.VITE_API_URL+"/posts/";
   const { id } = useParams();
@@ -282,7 +284,7 @@ const PostDetail = () => {
         <motion.button
           whileHover={{ x: -5 }}
           onClick={() => navigate('/')}
-          className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 transition-colors duration-300 py-6"
+          className="flex items-center cursor-pointer space-x-2 text-indigo-400 hover:text-indigo-300 transition-colors duration-300 py-6"
         >
           <ArrowLeft size={18} />
           <span>Back to all posts</span>
@@ -343,7 +345,7 @@ const PostDetail = () => {
           transition={{ delay: 0.3 }}
           className="prose prose-invert prose-lg max-w-none mb-16"
         >
-          <div className="text-lg leading-relaxed text-gray-300 whitespace-pre-line">
+          <div className="markdown-container text-lg leading-relaxed text-gray-300 whitespace-pre-line">
             <Markdown>{post.content}</Markdown>
           </div>
           

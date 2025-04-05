@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
@@ -11,7 +10,6 @@ const Love = () => {
   const baseUrl = import.meta.env.VITE_API_URL + "/love/";
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeItemIndex, setActiveItemIndex] = useState(null);
 
   //favorite quotes array
   const favoriteQuotes = [
