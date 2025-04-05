@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'corsheaders',
     'posts',
     'project',
@@ -75,6 +77,14 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#cloudinary storage
+CLOUDINARY_URL=os.getenv('CLOUDNARY_URL')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -158,5 +168,5 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 ##For images
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+

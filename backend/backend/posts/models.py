@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django_jsonform.models.fields import JSONField
-# Create your models here.
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
+
+
 User = get_user_model()
 class Post(models.Model):
     TAGS_SCHEMA = {
@@ -14,7 +17,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     title = models.CharField(max_length=2500, blank=True, null=True)
     content = models.TextField(default=None)
-    img = models.ImageField(upload_to='images/', null=True, blank=True)
+    img = models.ImageField(upload_to='images/', null=True, blank=True, storage=MediaCloudinaryStorage())
     tags = JSONField(schema=TAGS_SCHEMA, default=list)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

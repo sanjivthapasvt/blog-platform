@@ -12,3 +12,6 @@ dj-database-url
 gunicorn
 whitenoise
 requests
+django_jsonform
+django-cloudinary-storage #for cloud storage
+python-magic
