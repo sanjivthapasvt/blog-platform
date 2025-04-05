@@ -26,6 +26,8 @@ STATIC_URL = '/static/'
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_jsonform'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
