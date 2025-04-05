@@ -1,51 +1,109 @@
-# personal-blog-platform
-This is personal blog site where you can post your blogs. It also includes about page, Projects page, Contact Page, Archive and Love page. It is like portfolio + blog site.
+# 📝 Personal Blog Platform
 
-## To get stared
+A personal blog and portfolio site where you can publish your blogs, showcase your projects, and share a little bit about yourself.  
+This platform includes an **About** page, **Projects**, **Contact**, **Archive**, and a **Love** page.
+
+Built using modern web frameworks with full authentication, Markdown support, and a sleek frontend experience.
+
+---
+
+## 🚀 Features
+
+- ✍️ **Blog Posts**: Create, read, update, and delete blog posts.
+- 🔐 **Authentication**: Users must be authenticated to comment on posts.
+- 📄 **Markdown Support**: Write your blog post descriptions in Markdown — they’ll render beautifully on the frontend.
+- 📁 **Project Portfolio**: Showcase your personal or professional projects.
+- ❤️ **Love Page**: A unique page to share passions, hobbies, or anything you love.
+- 📬 **Contact Page**: Visitors can contact you through a clean, responsive form.
+- 🗃 **Archive Page**: View all blog posts by date in a structured archive.
+- 🧠 **About Page**: Tell visitors more about you.
+- 📚 **API Documentation**: Automatically generated Swagger UI and ReDoc documentation for the backend API.
+- ⚡ **Modern Tech Stack**:
+  - **Frontend**: Vite + React
+  - **Backend**: Django + Django REST Framework
+  - **Database**: PostgreSQL or SQLite (configurable)
+
+---
+
+## 🔗 Live Demo
+
+🌐 Check out the live demo here: [https://sanjiv-thapa.vercel.app/](https://sanjiv-thapa.vercel.app/)
+
+---
+
+## 🖼️ Screenshots
+
+### 🏠 Home Page
+![Home Page](./showcase/Home.png)
+
+### 🧠 About Page
+![About Page](./showcase/about.png)
+
+### 🔧 API Docs (Swagger UI)
+![Swagger UI](./showcase/swagger.png)
+
+
+---
+
+## 🛠️ Getting Started
+
+### 📦 Frontend Setup
 
 ```bash
 # Clone this repo
 git clone https://github.com/sanjivthapasvt/blog-platform.git
 
-#Change directory to frontend
+# Change directory to frontend
 cd blog-platform/frontend
 
-#install dependencies
+# Install frontend dependencies
 npm install
 
-#run the server
+# Run the frontend dev server
 npm run dev
 
-#make sure to create .env and add api url if you are on localhost you can use
+# Add your API URL to .env
 echo VITE_API_URL=http://127.0.0.1:8000/api >> .env
-
-#You can edit pages and component to your liking
-
-#Let's get started with backend
-cd blog-platform/backend/backend
-
-#create virtual env for python
-python -m venv venv
-
-#activate it
-source venv/bin/activate
-
-#install dependencies
-pip install -r requirements.txt
-
-#create .env and add postgres database URL like example below or you can go to settings.py and use sqllite
-touch .env #DATABASE_URL=postgresql://<username>:<password>%40%23@localhost:5432/<bdname>
-
-#run migration
-python manage.py migrate
-
-#run server
-python manage.py runserver
-
-#Your backend should be running if everything was done you can message me if it didn't work
 ```
 
+### ⚙️ Backend Setup
 
-## Licensing
+```bash
+# Navigate to backend folder
+cd ../backend/backend
 
-You are free to use any part of code or all part of code and use it to your liking but please make sure to give me proper credit.
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install backend dependencies
+pip install -r requirements.txt
+
+# Create .env file with your database URL
+touch .env
+# Example: DATABASE_URL=postgresql://<username>:<password>%40%23@localhost:5432/<dbname>
+
+# Run database migrations
+python manage.py migrate
+
+# Start backend server
+python manage.py runserver
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. Fork the repo
+2. Create your branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+## 📜 License
+
+You're free to use all or part of this codebase for your own projects. Please give proper credit by linking back to the original GitHub repository.
+
+## 🙋‍♂️ Contact
+
+Have questions, feedback, or ideas? Feel free to reach out via thapasvt12@gmail.com or open an issue in this repo.
