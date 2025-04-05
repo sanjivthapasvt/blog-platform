@@ -12,4 +12,3 @@ dj-database-url
 gunicorn
 whitenoise
 requests
-django-jsonform
