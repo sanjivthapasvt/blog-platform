@@ -14,9 +14,9 @@ Built using modern web frameworks with full authentication, Markdown support, an
 - 📄 **Markdown Support**: Write your blog post descriptions in Markdown — they’ll render beautifully on the frontend.
 - 📁 **Project Portfolio**: Showcase your personal or professional projects.
 - ❤️ **Love Page**: A unique page to share passions, hobbies, or anything you love.
-- 📬 **Contact Page**: Visitors can contact you through a clean, responsive form.
+- 📬 **Contact Page**: Visitors can see your social link and contact info.
 - 🗃 **Archive Page**: View all blog posts by date in a structured archive.
-- 🧠 **About Page**: Tell visitors more about you.
+- 🧠 **About Page**: Page to tell visitors more about yourself.
 - 📚 **API Documentation**: Automatically generated Swagger UI and ReDoc documentation for the backend API.
 - ⚡ **Modern Tech Stack**:
   - **Frontend**: Vite + React
