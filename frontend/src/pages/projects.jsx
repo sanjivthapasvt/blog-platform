@@ -185,7 +185,7 @@ const Projects = () => {
   );
 };
 
-const ProjectCard = ({ project, cardHoverVariants, onClick }) => {
+const ProjectCard = ({ project, cardHoverVariants }) => {
   const navigate = useNavigate();
   return (
     <motion.article

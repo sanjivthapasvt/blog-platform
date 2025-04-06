@@ -1,3 +1,4 @@
 .env
 media/
 staticfiles/
+venv/

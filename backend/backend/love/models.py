@@ -1,11 +1,12 @@
 from django.db import models
-from cloudinary_storage.validators import validate_video
-
+from django.core.validators import FileExtensionValidator
 
 class Love(models.Model):
     title = models.CharField(max_length=150, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    video = models.FileField(upload_to='videos/love/', null=True, blank=True, validators=[validate_video])
+    video = models.FileField(upload_to='videos/love/', null=True, blank=True,validators=[FileExtensionValidator([
+        '.mp4','.mkv','.avi','.mov','.flv','.wmv','.webm','.mpeg','.mpg','.3gp','.ogv','.rm','.vob','.ts','.m4v','.mts'
+])])
     image = models.ImageField(upload_to="images/love/", null=True, blank=True)
 
     def delete(self, *args, **kwargs):

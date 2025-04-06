@@ -7,7 +7,6 @@ const BackgroundElement = ({ count = 15, color = 'indigo', opacity = 0.1 }) => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {elements.map((i) => {
-        // Random properties for each bubble
         const size = Math.random() * 40 + 10;
         const top = Math.random() * 100;
         const left = Math.random() * 100;

@@ -7,8 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import dj_database_url
 load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'u[#VlYpI5|aWWno6sI;6UlrxgA8Bzndlk6(]3BT^Hh<racNkOP'
@@ -18,8 +17,10 @@ SECRET_KEY = 'u[#VlYpI5|aWWno6sI;6UlrxgA8Bzndlk6(]3BT^Hh<racNkOP'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.getenv("ALLOWED_HOST"), "127.0.0.1"]
+#Change this if you are deplpying
+ALLOWED_HOSTS = ["127.0.0.1"]
 
+#for static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
@@ -34,8 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
     'corsheaders',
     'posts',
     'project',
@@ -73,6 +72,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -81,12 +81,9 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
+#media path for images and videos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-#cloudinary storage
-# CLOUDINARY_URL=os.getenv('CLOUDNARY_URL')
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 ROOT_URLCONF = 'backend.urls'
@@ -110,8 +107,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+#Uncomment it out if you want to use sqlite
 
 # DATABASES = {
 #     'default': {
@@ -121,6 +117,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
+#If you are using postgressql add DATABASE_URL in .env it is something like this: postgresql://sanjivthapa:password%40%23@localhost:5432/blog
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
@@ -167,9 +164,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#change this if you are deploying
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-##For images
-# MEDIA_URL = '/media/'
 

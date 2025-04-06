@@ -1,7 +1,6 @@
 from django.db import models
 from django_jsonform.models.fields import JSONField
-from cloudinary_storage.validators import validate_video
-
+from django.core.validators import FileExtensionValidator
 class Project(models.Model):
     TECH_SCHEMA = {
         'type': 'array',
@@ -14,7 +13,9 @@ class Project(models.Model):
     subtitle = models.CharField(max_length=250, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     technologies = JSONField(schema=TECH_SCHEMA, default=list)
-    video = models.FileField(upload_to='videos/', blank=True, null=True, validators=[validate_video])
+    video = models.FileField(upload_to='videos/love/', null=True, blank=True,validators=[FileExtensionValidator([
+        '.mp4','.mkv','.avi','.mov','.flv','.wmv','.webm','.mpeg','.mpg','.3gp','.ogv','.rm','.vob','.ts','.m4v','.mts'
+])])
     image = models.ImageField(upload_to='images/projects/', null=True, blank=True)
     github = models.CharField(max_length=500, null=True, blank=True)
     demo = models.CharField(max_length=300, null=True, blank=True)
