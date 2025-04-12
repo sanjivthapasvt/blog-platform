@@ -15,7 +15,6 @@ import {
   SiFastapi,
   SiVite,
   SiElectron,
-  SiObsidian,
   SiHyprland,
   SiGnubash,
   SiSupabase,

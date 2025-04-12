@@ -32,7 +32,6 @@ function Layout() {
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/archive" element={<ArchivePage />} />
           <Route path="/love" element={<Love />} />
-          {/* Redirect root route to /home */}
           <Route path="/" element={<NotFoundRedirect />} />
         </Routes>
       </div>
